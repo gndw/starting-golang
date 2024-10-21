@@ -8,6 +8,11 @@ Simple starting golang repositor with existing http server
 - Run `go mod vendor` and `make test` to run all tests
 - Run `go tool cover -html=coverage.out` to check coverage
 
+## Add New Endpoint
+- Create new handler based on the usecase needed
+- Add new endpoint using `RegisterEndpoint` method
+- Check the example in this file `internals\handlers\test\implementation.go`
+
 ## Architecture Solution
 - Code is separated into different layers and parts
   - Service is a utility part that has single responsibility (ex: httpserver service to start HTTP Server)
