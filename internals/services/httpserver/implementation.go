@@ -6,15 +6,19 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/gndw/starting-golang/internals/constants"
+	"github.com/gndw/starting-golang/internals/services/httpmiddleware"
 )
 
 type Implementation struct {
-	handler *http.ServeMux
+	handler    *http.ServeMux
+	middleware httpmiddleware.Service
 }
 
-func NewHttpService(ctx context.Context) (*Implementation, error) {
+func NewHttpServerService(ctx context.Context, middleware httpmiddleware.Service) (*Implementation, error) {
 	handler := http.NewServeMux()
-	return &Implementation{handler: handler}, nil
+	return &Implementation{handler: handler, middleware: middleware}, nil
 }
 
 // https://jsonapi.org/format/#document-structure
@@ -27,11 +31,14 @@ type HttpErrorResponse struct {
 	Title string `json:"title"`
 }
 
-func (m *Implementation) RegisterEndpoint(ctx context.Context, method string, path string, f HttpFunction) error {
+func (m *Implementation) RegisterEndpoint(ctx context.Context, method string, path string, f constants.HttpFunction) error {
 	m.handler.HandleFunc(fmt.Sprintf("%v %v", method, path), func(w http.ResponseWriter, r *http.Request) {
 
+		// setup middleware
+		hf := m.middleware.LogMiddleware(f)
+
 		// executing function and construct http response
-		response, err := f(r.Context(), w, r)
+		response, err := hf(r.Context(), w, r)
 		httpResponse := HttpResponse{}
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)

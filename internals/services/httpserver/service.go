@@ -2,13 +2,12 @@ package httpserver
 
 import (
 	"context"
-	"net/http"
-)
 
-type HttpFunction func(ctx context.Context, w http.ResponseWriter, r *http.Request) (interface{}, error)
+	"github.com/gndw/starting-golang/internals/constants"
+)
 
 //go:generate mockery --name Service
 type Service interface {
-	RegisterEndpoint(ctx context.Context, method string, path string, f HttpFunction) error
+	RegisterEndpoint(ctx context.Context, method string, path string, f constants.HttpFunction) error
 	Serve(ctx context.Context) error
 }

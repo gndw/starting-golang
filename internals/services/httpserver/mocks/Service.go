@@ -4,7 +4,8 @@ package mocks
 
 import (
 	context "context"
-	httpserver "github.com/gndw/starting-golang/internals/services/httpserver"
+
+	constants "github.com/gndw/starting-golang/internals/constants"
 
 	mock "github.com/stretchr/testify/mock"
 )
@@ -15,7 +16,7 @@ type Service struct {
 }
 
 // RegisterEndpoint provides a mock function with given fields: ctx, method, path, f
-func (_m *Service) RegisterEndpoint(ctx context.Context, method string, path string, f httpserver.HttpFunction) error {
+func (_m *Service) RegisterEndpoint(ctx context.Context, method string, path string, f constants.HttpFunction) error {
 	ret := _m.Called(ctx, method, path, f)
 
 	if len(ret) == 0 {
@@ -23,7 +24,7 @@ func (_m *Service) RegisterEndpoint(ctx context.Context, method string, path str
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, string, httpserver.HttpFunction) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, constants.HttpFunction) error); ok {
 		r0 = rf(ctx, method, path, f)
 	} else {
 		r0 = ret.Error(0)

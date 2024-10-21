@@ -5,19 +5,31 @@ import (
 
 	testHandler "github.com/gndw/starting-golang/internals/handlers/test"
 	"github.com/gndw/starting-golang/internals/repositories/inmemorydb"
+	"github.com/gndw/starting-golang/internals/services/httpmiddleware"
 	"github.com/gndw/starting-golang/internals/services/httpserver"
+	"github.com/gndw/starting-golang/internals/services/log"
 	testUsecase "github.com/gndw/starting-golang/internals/usecase/test"
 )
 
 type Resource struct {
-	HttpService httpserver.Service
+	HttpServerService httpserver.Service
 }
 
 // Init will initialize all services and layers
 
 func Init(ctx context.Context) (resource Resource, err error) {
 
-	httpService, err := httpserver.NewHttpService(ctx)
+	logService, err := log.NewLogService(ctx)
+	if err != nil {
+		return resource, err
+	}
+
+	httpMiddlewareService, err := httpmiddleware.NewHttpMiddlewareService(ctx, logService)
+	if err != nil {
+		return resource, err
+	}
+
+	httpServerService, err := httpserver.NewHttpServerService(ctx, httpMiddlewareService)
 	if err != nil {
 		return resource, err
 	}
@@ -32,12 +44,12 @@ func Init(ctx context.Context) (resource Resource, err error) {
 		return resource, err
 	}
 
-	_, err = testHandler.NewHandler(ctx, httpService, testUsecase)
+	_, err = testHandler.NewHandler(ctx, httpServerService, testUsecase)
 	if err != nil {
 		return resource, err
 	}
 
 	return Resource{
-		HttpService: httpService,
+		HttpServerService: httpServerService,
 	}, nil
 }

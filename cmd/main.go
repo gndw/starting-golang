@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// starting http server
-	err = resource.HttpService.Serve(ctx)
+	err = resource.HttpServerService.Serve(ctx)
 	if err != nil {
 		log.Fatalf("[FATAL] http-server failed with err: %v", err.Error())
 	}
