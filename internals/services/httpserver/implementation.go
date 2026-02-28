@@ -16,6 +16,7 @@ type Implementation struct {
 	handler    *http.ServeMux
 	middleware httpmiddleware.Service
 	env        env.Service
+	server     *http.Server
 }
 
 func NewHttpServerService(ctx context.Context, middleware httpmiddleware.Service, env env.Service) (*Implementation, error) {
@@ -66,12 +67,25 @@ func (m *Implementation) Start(ctx context.Context) error {
 	if port == "" {
 		return fmt.Errorf("port is empty")
 	}
-	s := &http.Server{
+	m.server = &http.Server{
 		Addr:         fmt.Sprintf(":%v", port),
 		Handler:      m.handler,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,
 	}
 	fmt.Printf("[Http-Service] server starting at port %v...\n", port)
-	return s.ListenAndServe()
+	go func() {
+		if err := m.server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			fmt.Printf("[Http-Service] server failed to start: %v\n", err)
+		}
+	}()
+	return nil
+}
+
+func (m *Implementation) Shutdown(ctx context.Context) error {
+	if m.server == nil {
+		return nil
+	}
+	fmt.Printf("[Http-Service] server shutting down...\n")
+	return m.server.Shutdown(ctx)
 }
