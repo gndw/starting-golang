@@ -5,10 +5,15 @@ This document provides a technical overview of the `starting-golang` repository 
 ## 🏗️ Architecture & Design Patterns
 The project follows a **layered architecture** with strict separation of concerns, ensuring high testability and maintainability.
 
-- **Service Layer (`internals/services`):** Utility-focused components with single responsibilities (e.g., HTTP server, Logging, Middleware).
+- **Dependency Layer (`internals/dependencies`):** Wraps external libraries and standard packages (e.g., `os`, `godotenv`) into interfaces for improved testability and mocking.
+- **Service Layer (`internals/services`):** Utility-focused components with single responsibilities. Current services include:
+    - `env`: Manages configuration from `.env` and system environment variables.
+    - `log`: Provides a structured logging interface.
+    - `httpmiddlewarelog`: HTTP middleware for logging requests and responses.
+    - `httpserver`: Custom HTTP server implementation using standard library `http.ServeMux`.
 - **Handler Layer (`internals/handlers`):** Entry point for external requests. Responsible for parsing request bodies (JSON) and handling HTTP-specific logic.
 - **Usecase Layer (`internals/usecase`):** Contains the core business logic. It is agnostic of the transport layer (HTTP, gRPC, etc.).
-- **Repository Layer (`internals/repositories`):** Manages data persistence and external integrations (e.g., In-memory DB, SQL, External APIs).
+- **Repository Layer (`internals/repositories`):** Manages data persistence and external integrations (e.g., In-memory DB).
 
 ### Dependency Injection
 All layers are wired together in `internals/resources/resource.go`. Each layer typically defines an **Interface** in its own package and provides a concrete **Implementation**.
@@ -22,7 +27,7 @@ All layers are wired together in `internals/resources/resource.go`. Each layer t
 - **Language:** Go 1.26.0
 - **HTTP Framework:** Standard library (`net/http`) with a custom `RegisterEndpoint` abstraction.
 - **Testing:** `github.com/stretchr/testify` for assertions and `mockery` for generating mocks. Generate mocks only when all files are saved without errors.
-- **Automation:** `makefile` handles building, running, and testing.
+- **Automation:** `makefile` handles building, running, testing, and hitting endpoints.
 
 ## 📋 Common Workflows
 
@@ -31,6 +36,12 @@ All layers are wired together in `internals/resources/resource.go`. Each layer t
 make run-app
 ```
 Starts the server on `:5548`.
+
+### Verifying the Server
+```bash
+make hit-test
+```
+Sends a POST request to the `/test` endpoint with a sample payload.
 
 ### Testing
 ```bash
@@ -46,6 +57,7 @@ Runs all unit tests with coverage reporting.
 
 ## 📂 Directory Map
 - `cmd/`: Application entry point.
+- `internals/dependencies/`: Testable wrappers for external dependencies.
 - `internals/handlers/`: HTTP request handlers.
 - `internals/usecase/`: Business logic implementations.
 - `internals/repositories/`: Data access layer.
