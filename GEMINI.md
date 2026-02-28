@@ -21,7 +21,7 @@ All layers are wired together in `internals/resources/resource.go`. Each layer t
 ## 🛠️ Tech Stack & Tooling
 - **Language:** Go 1.22.8
 - **HTTP Framework:** Standard library (`net/http`) with a custom `RegisterEndpoint` abstraction.
-- **Testing:** `github.com/stretchr/testify` for assertions and `mockery` for generating mocks.
+- **Testing:** `github.com/stretchr/testify` for assertions and `mockery` for generating mocks. Generate mocks only when all files are saved without errors.
 - **Automation:** `makefile` handles building, running, and testing.
 
 ## 📋 Common Workflows

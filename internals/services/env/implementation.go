@@ -18,6 +18,11 @@ func NewEnvService(ctx context.Context) (*Implementation, error) {
 		return nil, err
 	}
 
+	// load .local.env if it exists
+	if _, err := os.Stat(".local.env"); err == nil {
+		_ = godotenv.Overload(".local.env")
+	}
+
 	return &Implementation{
 		env: &Env{
 			Port: os.Getenv("PORT"),
