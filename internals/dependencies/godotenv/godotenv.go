@@ -2,7 +2,6 @@ package godotenv
 
 import "github.com/joho/godotenv"
 
-//mockery:generate: true
 type Dependency interface {
 	Load(filenames ...string) error
 	Overload(filenames ...string) error

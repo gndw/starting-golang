@@ -5,7 +5,6 @@ import (
 	"os"
 )
 
-//go:generate mockery --name Dependency
 type Dependency interface {
 	Stat(name string) (fs.FileInfo, error)
 	Getenv(key string) string
