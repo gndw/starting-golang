@@ -7,7 +7,7 @@ run-app: build-app
 	@bin/main
 
 hit-test:
-	@curl -i -X POST localhost:8080/test -d '{"user_id":100}' 
+	@curl -i -X POST localhost:5548/test -d '{"user_id":100}' 
 
 test:
 	@echo "Unit Testing..."

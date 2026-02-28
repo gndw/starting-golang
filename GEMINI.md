@@ -30,7 +30,7 @@ All layers are wired together in `internals/resources/resource.go`. Each layer t
 ```bash
 make run-app
 ```
-Starts the server on `:8080`.
+Starts the server on `:5548`.
 
 ### Testing
 ```bash

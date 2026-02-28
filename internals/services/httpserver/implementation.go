@@ -8,17 +8,19 @@ import (
 	"time"
 
 	"github.com/gndw/starting-golang/internals/constants"
+	"github.com/gndw/starting-golang/internals/services/env"
 	"github.com/gndw/starting-golang/internals/services/httpmiddleware"
 )
 
 type Implementation struct {
 	handler    *http.ServeMux
 	middleware httpmiddleware.Service
+	env        env.Service
 }
 
-func NewHttpServerService(ctx context.Context, middleware httpmiddleware.Service) (*Implementation, error) {
+func NewHttpServerService(ctx context.Context, middleware httpmiddleware.Service, env env.Service) (*Implementation, error) {
 	handler := http.NewServeMux()
-	return &Implementation{handler: handler, middleware: middleware}, nil
+	return &Implementation{handler: handler, middleware: middleware, env: env}, nil
 }
 
 // https://jsonapi.org/format/#document-structure
@@ -56,12 +58,16 @@ func (m *Implementation) RegisterEndpoint(ctx context.Context, method string, pa
 }
 
 func (m *Implementation) Start(ctx context.Context) error {
+	port := m.env.Get(ctx).Port
+	if port == "" {
+		return fmt.Errorf("port is empty")
+	}
 	s := &http.Server{
-		Addr:         ":8080",
+		Addr:         fmt.Sprintf(":%v", port),
 		Handler:      m.handler,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,
 	}
-	fmt.Println("[Http-Service] server starting at port 8080...")
+	fmt.Printf("[Http-Service] server starting at port %v...\n", port)
 	return s.ListenAndServe()
 }

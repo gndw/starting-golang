@@ -5,6 +5,7 @@ import (
 
 	testHandler "github.com/gndw/starting-golang/internals/handlers/test"
 	"github.com/gndw/starting-golang/internals/repositories/inmemorydb"
+	"github.com/gndw/starting-golang/internals/services/env"
 	"github.com/gndw/starting-golang/internals/services/httpmiddleware"
 	"github.com/gndw/starting-golang/internals/services/httpserver"
 	"github.com/gndw/starting-golang/internals/services/log"
@@ -24,12 +25,17 @@ func Init(ctx context.Context) (resource Resource, err error) {
 		return resource, err
 	}
 
+	envService, err := env.NewEnvService(ctx)
+	if err != nil {
+		return resource, err
+	}
+
 	httpMiddlewareService, err := httpmiddleware.NewHttpMiddlewareService(ctx, logService)
 	if err != nil {
 		return resource, err
 	}
 
-	httpServerService, err := httpserver.NewHttpServerService(ctx, httpMiddlewareService)
+	httpServerService, err := httpserver.NewHttpServerService(ctx, httpMiddlewareService, envService)
 	if err != nil {
 		return resource, err
 	}
