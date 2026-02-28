@@ -33,12 +33,12 @@ func (_m *Service) RegisterEndpoint(ctx context.Context, method string, path str
 	return r0
 }
 
-// Serve provides a mock function with given fields: ctx
-func (_m *Service) Serve(ctx context.Context) error {
+// Start provides a mock function with given fields: ctx
+func (_m *Service) Start(ctx context.Context) error {
 	ret := _m.Called(ctx)
 
 	if len(ret) == 0 {
-		panic("no return value specified for Serve")
+		panic("no return value specified for Start")
 	}
 
 	var r0 error

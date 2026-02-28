@@ -55,7 +55,7 @@ func (m *Implementation) RegisterEndpoint(ctx context.Context, method string, pa
 	return nil
 }
 
-func (m *Implementation) Serve(ctx context.Context) error {
+func (m *Implementation) Start(ctx context.Context) error {
 	s := &http.Server{
 		Addr:         ":8080",
 		Handler:      m.handler,
