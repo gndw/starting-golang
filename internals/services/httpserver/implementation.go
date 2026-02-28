@@ -41,20 +41,24 @@ func (m *Implementation) RegisterEndpoint(ctx context.Context, method string, pa
 
 		// executing function and construct http response
 		response, err := hf(r.Context(), w, r)
-		httpResponse := HttpResponse{}
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			httpResponse.Errors = append(httpResponse.Errors, HttpErrorResponse{Title: err.Error()})
-		} else {
-			w.WriteHeader(http.StatusOK)
-			httpResponse.Data = response
-		}
-
-		w.Header().Add("Content-Type", "application/json")
-		b, _ := json.Marshal(httpResponse)
-		w.Write(b)
+		m.writeResponse(w, response, err)
 	})
 	return nil
+}
+
+func (m *Implementation) writeResponse(w http.ResponseWriter, response interface{}, err error) {
+	httpResponse := HttpResponse{}
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		httpResponse.Errors = append(httpResponse.Errors, HttpErrorResponse{Title: err.Error()})
+	} else {
+		w.WriteHeader(http.StatusOK)
+		httpResponse.Data = response
+	}
+
+	w.Header().Add("Content-Type", "application/json")
+	b, _ := json.Marshal(httpResponse)
+	w.Write(b)
 }
 
 func (m *Implementation) Start(ctx context.Context) error {
