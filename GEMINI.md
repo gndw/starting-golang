@@ -1,0 +1,54 @@
+# Gemini Context: starting-golang
+
+This document provides a technical overview of the `starting-golang` repository to accelerate future analysis and development sessions.
+
+## 🏗️ Architecture & Design Patterns
+The project follows a **layered architecture** with strict separation of concerns, ensuring high testability and maintainability.
+
+- **Service Layer (`internals/services`):** Utility-focused components with single responsibilities (e.g., HTTP server, Logging, Middleware).
+- **Handler Layer (`internals/handlers`):** Entry point for external requests. Responsible for parsing request bodies (JSON) and handling HTTP-specific logic.
+- **Usecase Layer (`internals/usecase`):** Contains the core business logic. It is agnostic of the transport layer (HTTP, gRPC, etc.).
+- **Repository Layer (`internals/repositories`):** Manages data persistence and external integrations (e.g., In-memory DB, SQL, External APIs).
+
+### Dependency Injection
+All layers are wired together in `internals/resources/resource.go`. Each layer typically defines an **Interface** in its own package and provides a concrete **Implementation**.
+
+## 🚀 Key Entry Points
+- **Main Entry:** `cmd/main.go` - Initializes resources and starts the HTTP server.
+- **Wiring:** `internals/resources/resource.go` - The `Init` function where all services and data layers are instantiated.
+- **Server:** `internals/services/httpserver/implementation.go` - Implements the HTTP server using `http.ServeMux`. (Start() method)
+
+## 🛠️ Tech Stack & Tooling
+- **Language:** Go 1.22.8
+- **HTTP Framework:** Standard library (`net/http`) with a custom `RegisterEndpoint` abstraction.
+- **Testing:** `github.com/stretchr/testify` for assertions and `mockery` for generating mocks.
+- **Automation:** `makefile` handles building, running, and testing.
+
+## 📋 Common Workflows
+
+### Running the Application
+```bash
+make run-app
+```
+Starts the server on `:8080`.
+
+### Testing
+```bash
+make test
+```
+Runs all unit tests with coverage reporting.
+
+### Adding a New Endpoint
+1. Define the request/response models in `internals/models`.
+2. Implement business logic in a new or existing **Usecase**.
+3. Create a **Handler** that uses the Usecase.
+4. Register the handler's endpoint in `internals/resources/resource.go` using `httpServerService.RegisterEndpoint`.
+
+## 📂 Directory Map
+- `cmd/`: Application entry point.
+- `internals/handlers/`: HTTP request handlers.
+- `internals/usecase/`: Business logic implementations.
+- `internals/repositories/`: Data access layer.
+- `internals/services/`: Cross-cutting concerns (logging, server, middleware).
+- `internals/models/`: Shared data structures.
+- `internals/constants/`: Shared constants and types.
