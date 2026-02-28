@@ -3,6 +3,8 @@ package resources
 import (
 	"context"
 
+	"github.com/gndw/starting-golang/internals/dependencies/godotenv"
+	"github.com/gndw/starting-golang/internals/dependencies/os"
 	testHandler "github.com/gndw/starting-golang/internals/handlers/test"
 	"github.com/gndw/starting-golang/internals/repositories/inmemorydb"
 	"github.com/gndw/starting-golang/internals/services/env"
@@ -20,12 +22,15 @@ type Resource struct {
 
 func Init(ctx context.Context) (resource Resource, err error) {
 
+	osDependency := os.NewOS()
+	godotenvDependency := godotenv.NewGodotenv()
+
 	logService, err := log.NewLogService(ctx)
 	if err != nil {
 		return resource, err
 	}
 
-	envService, err := env.NewEnvService(ctx)
+	envService, err := env.NewEnvService(ctx, godotenvDependency, osDependency)
 	if err != nil {
 		return resource, err
 	}

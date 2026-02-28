@@ -2,16 +2,16 @@ package env
 
 import (
 	"context"
-	"os"
 
-	"github.com/joho/godotenv"
+	"github.com/gndw/starting-golang/internals/dependencies/godotenv"
+	"github.com/gndw/starting-golang/internals/dependencies/os"
 )
 
 type Implementation struct {
 	env *Env
 }
 
-func NewEnvService(ctx context.Context) (*Implementation, error) {
+func NewEnvService(ctx context.Context, godotenv godotenv.Dependency, os os.Dependency) (*Implementation, error) {
 	// load .env file from root
 	err := godotenv.Load(".env")
 	if err != nil {
