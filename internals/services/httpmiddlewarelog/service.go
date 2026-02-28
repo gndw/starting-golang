@@ -1,4 +1,4 @@
-package httpmiddleware
+package httpmiddlewarelog
 
 import (
 	"github.com/gndw/starting-golang/internals/constants"

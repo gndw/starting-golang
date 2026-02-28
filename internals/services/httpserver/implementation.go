@@ -9,19 +9,19 @@ import (
 
 	"github.com/gndw/starting-golang/internals/constants"
 	"github.com/gndw/starting-golang/internals/services/env"
-	"github.com/gndw/starting-golang/internals/services/httpmiddleware"
+	"github.com/gndw/starting-golang/internals/services/httpmiddlewarelog"
 )
 
 type Implementation struct {
-	handler    *http.ServeMux
-	middleware httpmiddleware.Service
-	env        env.Service
-	server     *http.Server
+	handler       *http.ServeMux
+	logMiddleware httpmiddlewarelog.Service
+	env           env.Service
+	server        *http.Server
 }
 
-func NewHttpServerService(ctx context.Context, middleware httpmiddleware.Service, env env.Service) (*Implementation, error) {
+func NewHttpServerService(ctx context.Context, logMiddleware httpmiddlewarelog.Service, env env.Service) (*Implementation, error) {
 	handler := http.NewServeMux()
-	return &Implementation{handler: handler, middleware: middleware, env: env}, nil
+	return &Implementation{handler: handler, logMiddleware: logMiddleware, env: env}, nil
 }
 
 // https://jsonapi.org/format/#document-structure
@@ -38,7 +38,7 @@ func (m *Implementation) RegisterEndpoint(ctx context.Context, method string, pa
 	m.handler.HandleFunc(fmt.Sprintf("%v %v", method, path), func(w http.ResponseWriter, r *http.Request) {
 
 		// setup middleware
-		hf := m.middleware.LogMiddleware(f)
+		hf := m.logMiddleware.LogMiddleware(f)
 
 		// executing function and construct http response
 		response, err := hf(r.Context(), w, r)

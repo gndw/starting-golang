@@ -6,7 +6,7 @@ import (
 	testHandler "github.com/gndw/starting-golang/internals/handlers/test"
 	"github.com/gndw/starting-golang/internals/repositories/inmemorydb"
 	"github.com/gndw/starting-golang/internals/services/env"
-	"github.com/gndw/starting-golang/internals/services/httpmiddleware"
+	"github.com/gndw/starting-golang/internals/services/httpmiddlewarelog"
 	"github.com/gndw/starting-golang/internals/services/httpserver"
 	"github.com/gndw/starting-golang/internals/services/log"
 	testUsecase "github.com/gndw/starting-golang/internals/usecase/test"
@@ -30,7 +30,7 @@ func Init(ctx context.Context) (resource Resource, err error) {
 		return resource, err
 	}
 
-	httpMiddlewareService, err := httpmiddleware.NewHttpMiddlewareService(ctx, logService)
+	httpMiddlewareService, err := httpmiddlewarelog.NewHttpMiddlewareService(ctx, logService)
 	if err != nil {
 		return resource, err
 	}
