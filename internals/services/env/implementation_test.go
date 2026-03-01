@@ -24,7 +24,7 @@ func TestNewEnvService(t *testing.T) {
 		wantErr error
 	}{
 		{
-			name: "success only .env",
+			name: "should successfully load only .env when .local.env does not exist",
 			setup: func(m mocks) {
 				m.godotenv.EXPECT().Load([]string{".env"}).Return(nil)
 				m.os.EXPECT().Stat(".local.env").Return(nil, errors.New("not found"))
@@ -34,7 +34,7 @@ func TestNewEnvService(t *testing.T) {
 			wantErr: nil,
 		},
 		{
-			name: "success with .local.env",
+			name: "should successfully load .env and overload with .local.env when both exist",
 			setup: func(m mocks) {
 				m.godotenv.EXPECT().Load([]string{".env"}).Return(nil)
 				m.os.EXPECT().Stat(".local.env").Return(nil, nil)
@@ -45,7 +45,7 @@ func TestNewEnvService(t *testing.T) {
 			wantErr: nil,
 		},
 		{
-			name: "fail load .env",
+			name: "should return error when loading .env fails",
 			setup: func(m mocks) {
 				m.godotenv.EXPECT().Load([]string{".env"}).Return(errLoad)
 			},
