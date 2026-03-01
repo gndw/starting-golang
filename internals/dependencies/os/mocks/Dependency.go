@@ -5,6 +5,7 @@
 package mocks
 
 import (
+	"io"
 	"io/fs"
 
 	mock "github.com/stretchr/testify/mock"
@@ -35,6 +36,46 @@ type Dependency_Expecter struct {
 
 func (_m *Dependency) EXPECT() *Dependency_Expecter {
 	return &Dependency_Expecter{mock: &_m.Mock}
+}
+
+// Exit provides a mock function for the type Dependency
+func (_mock *Dependency) Exit(code int) {
+	_mock.Called(code)
+	return
+}
+
+// Dependency_Exit_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Exit'
+type Dependency_Exit_Call struct {
+	*mock.Call
+}
+
+// Exit is a helper method to define mock.On call
+//   - code int
+func (_e *Dependency_Expecter) Exit(code interface{}) *Dependency_Exit_Call {
+	return &Dependency_Exit_Call{Call: _e.mock.On("Exit", code)}
+}
+
+func (_c *Dependency_Exit_Call) Run(run func(code int)) *Dependency_Exit_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 int
+		if args[0] != nil {
+			arg0 = args[0].(int)
+		}
+		run(
+			arg0,
+		)
+	})
+	return _c
+}
+
+func (_c *Dependency_Exit_Call) Return() *Dependency_Exit_Call {
+	_c.Call.Return()
+	return _c
+}
+
+func (_c *Dependency_Exit_Call) RunAndReturn(run func(code int)) *Dependency_Exit_Call {
+	_c.Run(run)
+	return _c
 }
 
 // Getenv provides a mock function for the type Dependency
@@ -146,6 +187,52 @@ func (_c *Dependency_Stat_Call) Return(fileInfo fs.FileInfo, err error) *Depende
 }
 
 func (_c *Dependency_Stat_Call) RunAndReturn(run func(name string) (fs.FileInfo, error)) *Dependency_Stat_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// Stdout provides a mock function for the type Dependency
+func (_mock *Dependency) Stdout() io.Writer {
+	ret := _mock.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for Stdout")
+	}
+
+	var r0 io.Writer
+	if returnFunc, ok := ret.Get(0).(func() io.Writer); ok {
+		r0 = returnFunc()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(io.Writer)
+		}
+	}
+	return r0
+}
+
+// Dependency_Stdout_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Stdout'
+type Dependency_Stdout_Call struct {
+	*mock.Call
+}
+
+// Stdout is a helper method to define mock.On call
+func (_e *Dependency_Expecter) Stdout() *Dependency_Stdout_Call {
+	return &Dependency_Stdout_Call{Call: _e.mock.On("Stdout")}
+}
+
+func (_c *Dependency_Stdout_Call) Run(run func()) *Dependency_Stdout_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *Dependency_Stdout_Call) Return(writer io.Writer) *Dependency_Stdout_Call {
+	_c.Call.Return(writer)
+	return _c
+}
+
+func (_c *Dependency_Stdout_Call) RunAndReturn(run func() io.Writer) *Dependency_Stdout_Call {
 	_c.Call.Return(run)
 	return _c
 }

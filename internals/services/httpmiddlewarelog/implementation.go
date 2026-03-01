@@ -22,7 +22,7 @@ func (m *Implementation) LogMiddleware(f constants.HttpFunction) constants.HttpF
 		resp, err := f(ctx, w, r)
 
 		// do something else with the log
-		m.logService.Info(ctx, "[incoming-http]...")
+		m.logService.Info(ctx, "[incoming-http]", "method", r.Method, "path", r.URL.Path)
 
 		return resp, err
 	}

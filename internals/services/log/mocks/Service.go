@@ -37,12 +37,192 @@ func (_m *Service) EXPECT() *Service_Expecter {
 	return &Service_Expecter{mock: &_m.Mock}
 }
 
-// Info provides a mock function for the type Service
-func (_mock *Service) Info(ctx context.Context, format string, a ...any) {
-	if len(a) > 0 {
-		_mock.Called(ctx, format, a)
+// Debug provides a mock function for the type Service
+func (_mock *Service) Debug(ctx context.Context, msg string, args ...any) {
+	if len(args) > 0 {
+		_mock.Called(ctx, msg, args)
 	} else {
-		_mock.Called(ctx, format)
+		_mock.Called(ctx, msg)
+	}
+
+	return
+}
+
+// Service_Debug_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Debug'
+type Service_Debug_Call struct {
+	*mock.Call
+}
+
+// Debug is a helper method to define mock.On call
+//   - ctx context.Context
+//   - msg string
+//   - args ...any
+func (_e *Service_Expecter) Debug(ctx interface{}, msg interface{}, args ...interface{}) *Service_Debug_Call {
+	return &Service_Debug_Call{Call: _e.mock.On("Debug",
+		append([]interface{}{ctx, msg}, args...)...)}
+}
+
+func (_c *Service_Debug_Call) Run(run func(ctx context.Context, msg string, args ...any)) *Service_Debug_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 []any
+		var variadicArgs []any
+		if len(args) > 2 {
+			variadicArgs = args[2].([]any)
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *Service_Debug_Call) Return() *Service_Debug_Call {
+	_c.Call.Return()
+	return _c
+}
+
+func (_c *Service_Debug_Call) RunAndReturn(run func(ctx context.Context, msg string, args ...any)) *Service_Debug_Call {
+	_c.Run(run)
+	return _c
+}
+
+// Error provides a mock function for the type Service
+func (_mock *Service) Error(ctx context.Context, msg string, args ...any) {
+	if len(args) > 0 {
+		_mock.Called(ctx, msg, args)
+	} else {
+		_mock.Called(ctx, msg)
+	}
+
+	return
+}
+
+// Service_Error_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Error'
+type Service_Error_Call struct {
+	*mock.Call
+}
+
+// Error is a helper method to define mock.On call
+//   - ctx context.Context
+//   - msg string
+//   - args ...any
+func (_e *Service_Expecter) Error(ctx interface{}, msg interface{}, args ...interface{}) *Service_Error_Call {
+	return &Service_Error_Call{Call: _e.mock.On("Error",
+		append([]interface{}{ctx, msg}, args...)...)}
+}
+
+func (_c *Service_Error_Call) Run(run func(ctx context.Context, msg string, args ...any)) *Service_Error_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 []any
+		var variadicArgs []any
+		if len(args) > 2 {
+			variadicArgs = args[2].([]any)
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *Service_Error_Call) Return() *Service_Error_Call {
+	_c.Call.Return()
+	return _c
+}
+
+func (_c *Service_Error_Call) RunAndReturn(run func(ctx context.Context, msg string, args ...any)) *Service_Error_Call {
+	_c.Run(run)
+	return _c
+}
+
+// Fatal provides a mock function for the type Service
+func (_mock *Service) Fatal(ctx context.Context, msg string, args ...any) {
+	if len(args) > 0 {
+		_mock.Called(ctx, msg, args)
+	} else {
+		_mock.Called(ctx, msg)
+	}
+
+	return
+}
+
+// Service_Fatal_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Fatal'
+type Service_Fatal_Call struct {
+	*mock.Call
+}
+
+// Fatal is a helper method to define mock.On call
+//   - ctx context.Context
+//   - msg string
+//   - args ...any
+func (_e *Service_Expecter) Fatal(ctx interface{}, msg interface{}, args ...interface{}) *Service_Fatal_Call {
+	return &Service_Fatal_Call{Call: _e.mock.On("Fatal",
+		append([]interface{}{ctx, msg}, args...)...)}
+}
+
+func (_c *Service_Fatal_Call) Run(run func(ctx context.Context, msg string, args ...any)) *Service_Fatal_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 []any
+		var variadicArgs []any
+		if len(args) > 2 {
+			variadicArgs = args[2].([]any)
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *Service_Fatal_Call) Return() *Service_Fatal_Call {
+	_c.Call.Return()
+	return _c
+}
+
+func (_c *Service_Fatal_Call) RunAndReturn(run func(ctx context.Context, msg string, args ...any)) *Service_Fatal_Call {
+	_c.Run(run)
+	return _c
+}
+
+// Info provides a mock function for the type Service
+func (_mock *Service) Info(ctx context.Context, msg string, args ...any) {
+	if len(args) > 0 {
+		_mock.Called(ctx, msg, args)
+	} else {
+		_mock.Called(ctx, msg)
 	}
 
 	return
@@ -55,14 +235,14 @@ type Service_Info_Call struct {
 
 // Info is a helper method to define mock.On call
 //   - ctx context.Context
-//   - format string
-//   - a ...any
-func (_e *Service_Expecter) Info(ctx interface{}, format interface{}, a ...interface{}) *Service_Info_Call {
+//   - msg string
+//   - args ...any
+func (_e *Service_Expecter) Info(ctx interface{}, msg interface{}, args ...interface{}) *Service_Info_Call {
 	return &Service_Info_Call{Call: _e.mock.On("Info",
-		append([]interface{}{ctx, format}, a...)...)}
+		append([]interface{}{ctx, msg}, args...)...)}
 }
 
-func (_c *Service_Info_Call) Run(run func(ctx context.Context, format string, a ...any)) *Service_Info_Call {
+func (_c *Service_Info_Call) Run(run func(ctx context.Context, msg string, args ...any)) *Service_Info_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -92,7 +272,67 @@ func (_c *Service_Info_Call) Return() *Service_Info_Call {
 	return _c
 }
 
-func (_c *Service_Info_Call) RunAndReturn(run func(ctx context.Context, format string, a ...any)) *Service_Info_Call {
+func (_c *Service_Info_Call) RunAndReturn(run func(ctx context.Context, msg string, args ...any)) *Service_Info_Call {
+	_c.Run(run)
+	return _c
+}
+
+// Warn provides a mock function for the type Service
+func (_mock *Service) Warn(ctx context.Context, msg string, args ...any) {
+	if len(args) > 0 {
+		_mock.Called(ctx, msg, args)
+	} else {
+		_mock.Called(ctx, msg)
+	}
+
+	return
+}
+
+// Service_Warn_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Warn'
+type Service_Warn_Call struct {
+	*mock.Call
+}
+
+// Warn is a helper method to define mock.On call
+//   - ctx context.Context
+//   - msg string
+//   - args ...any
+func (_e *Service_Expecter) Warn(ctx interface{}, msg interface{}, args ...interface{}) *Service_Warn_Call {
+	return &Service_Warn_Call{Call: _e.mock.On("Warn",
+		append([]interface{}{ctx, msg}, args...)...)}
+}
+
+func (_c *Service_Warn_Call) Run(run func(ctx context.Context, msg string, args ...any)) *Service_Warn_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 []any
+		var variadicArgs []any
+		if len(args) > 2 {
+			variadicArgs = args[2].([]any)
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *Service_Warn_Call) Return() *Service_Warn_Call {
+	_c.Call.Return()
+	return _c
+}
+
+func (_c *Service_Warn_Call) RunAndReturn(run func(ctx context.Context, msg string, args ...any)) *Service_Warn_Call {
 	_c.Run(run)
 	return _c
 }

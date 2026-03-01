@@ -1,6 +1,6 @@
 ---
 name: go-unit-test-generator
-description: Generate Go unit tests following the project's table-driven testing pattern and BDD naming conventions. Use when adding new features or fixing bugs in the Go codebase.
+description: Generate Go unit tests following the project's table-driven testing pattern and BDD naming conventions. Use when adding new features, fixing bugs, or generating any _test.go file in the Go codebase.
 ---
 
 # Go Unit Test Generation

@@ -1,6 +1,7 @@
 package os
 
 import (
+	"io"
 	"io/fs"
 	"os"
 )
@@ -8,6 +9,8 @@ import (
 type Dependency interface {
 	Stat(name string) (fs.FileInfo, error)
 	Getenv(key string) string
+	Stdout() io.Writer
+	Exit(code int)
 }
 
 type OSImpl struct{}
@@ -22,4 +25,12 @@ func (o *OSImpl) Stat(name string) (fs.FileInfo, error) {
 
 func (o *OSImpl) Getenv(key string) string {
 	return os.Getenv(key)
+}
+
+func (o *OSImpl) Stdout() io.Writer {
+	return os.Stdout
+}
+
+func (o *OSImpl) Exit(code int) {
+	os.Exit(code)
 }

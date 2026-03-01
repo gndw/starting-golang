@@ -5,6 +5,7 @@ import (
 
 	"github.com/gndw/starting-golang/internals/dependencies/godotenv"
 	"github.com/gndw/starting-golang/internals/dependencies/os"
+	"github.com/gndw/starting-golang/internals/dependencies/slog"
 	testHandler "github.com/gndw/starting-golang/internals/handlers/test"
 	"github.com/gndw/starting-golang/internals/repositories/inmemorydb"
 	"github.com/gndw/starting-golang/internals/services/env"
@@ -24,8 +25,9 @@ func Init(ctx context.Context) (resource Resource, err error) {
 
 	osDependency := os.NewOS()
 	godotenvDependency := godotenv.NewGodotenv()
+	slogDependency := slog.NewSlog()
 
-	logService, err := log.NewLogService(ctx)
+	logService, err := log.NewLogService(ctx, slogDependency, osDependency)
 	if err != nil {
 		return resource, err
 	}
