@@ -45,8 +45,9 @@ func TestNewLogService(t *testing.T) {
 
 			assert.NoError(t, err)
 			assert.NotNil(t, got)
-			assert.Equal(t, m.logger, got.logger)
-			assert.Equal(t, m.osDependency, got.os)
+			impl := got.(*Implementation)
+			assert.Equal(t, m.logger, impl.logger)
+			assert.Equal(t, m.osDependency, impl.os)
 		})
 	}
 }

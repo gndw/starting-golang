@@ -12,7 +12,7 @@ type Implementation struct {
 	os     os.Dependency
 }
 
-func NewLogService(ctx context.Context, slogDependency slog.Dependency, osDependency os.Dependency) (*Implementation, error) {
+func NewLogService(ctx context.Context, slogDependency slog.Dependency, osDependency os.Dependency) (Service, error) {
 	logger := slogDependency.NewJSONLogger(osDependency.Stdout())
 	return &Implementation{
 		logger: logger,

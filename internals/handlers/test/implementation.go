@@ -14,7 +14,7 @@ type Implementation struct {
 	testUsecase test.Usecase
 }
 
-func NewHandler(ctx context.Context, httpService httpserver.Service, testUsecase test.Usecase) (*Implementation, error) {
+func NewHandler(ctx context.Context, httpService httpserver.Service, testUsecase test.Usecase) (Handler, error) {
 	h := &Implementation{
 		testUsecase: testUsecase,
 	}

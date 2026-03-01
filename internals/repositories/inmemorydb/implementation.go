@@ -13,7 +13,7 @@ type Implementation struct {
 	users []models.User
 }
 
-func NewRepository(ctx context.Context) (*Implementation, error) {
+func NewRepository(ctx context.Context) (Repository, error) {
 	h := &Implementation{
 		mu: &sync.Mutex{},
 		users: []models.User{

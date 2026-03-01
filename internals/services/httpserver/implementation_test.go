@@ -50,7 +50,8 @@ func TestNewHttpServerService(t *testing.T) {
 				return
 			}
 			assert.NotNil(t, got)
-			assert.NotNil(t, got.handler)
+			impl := got.(*Implementation)
+			assert.NotNil(t, impl.handler)
 		})
 	}
 }
@@ -126,7 +127,8 @@ func TestRegisterEndpoint(t *testing.T) {
 			req := httptest.NewRequest(tt.requestMethod, tt.requestPath, nil)
 			w := httptest.NewRecorder()
 
-			s.handler.ServeHTTP(w, req)
+			impl := s.(*Implementation)
+			impl.handler.ServeHTTP(w, req)
 
 			assert.Equal(t, tt.wantStatusCode, w.Code)
 			
@@ -192,12 +194,13 @@ func TestStart(t *testing.T) {
 				t.Errorf("Start() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if err == nil {
-				assert.NotNil(t, s.server)
+				impl := s.(*Implementation)
+				assert.NotNil(t, impl.server)
 				if tt.name == "should trigger error in goroutine when port is invalid" {
 					// wait for goroutine to fail
 					time.Sleep(10 * time.Millisecond)
 				} else {
-					assert.Equal(t, ":8080", s.server.Addr)
+					assert.Equal(t, ":8080", impl.server.Addr)
 				}
 				// We don't wait for the goroutine to start Listening because it might fail on CI if port taken
 				// But we should shutdown to be clean
@@ -240,8 +243,9 @@ func TestShutdown(t *testing.T) {
 				env:           env_mocks.NewService(t),
 			}
 			s, _ := NewHttpServerService(context.Background(), m.logMiddleware, m.env)
+			impl := s.(*Implementation)
 			if tt.setup != nil {
-				tt.setup(m, s)
+				tt.setup(m, impl)
 			}
 			err := s.Shutdown(context.Background())
 			if (err != nil) != tt.wantErr {

@@ -11,7 +11,7 @@ type Implementation struct {
 	inMemoryDbRepository inmemorydb.Repository
 }
 
-func NewUsecase(ctx context.Context, inMemoryDbRepository inmemorydb.Repository) (*Implementation, error) {
+func NewUsecase(ctx context.Context, inMemoryDbRepository inmemorydb.Repository) (Usecase, error) {
 	h := &Implementation{
 		inMemoryDbRepository: inMemoryDbRepository,
 	}

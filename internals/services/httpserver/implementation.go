@@ -19,7 +19,7 @@ type Implementation struct {
 	server        *http.Server
 }
 
-func NewHttpServerService(ctx context.Context, logMiddleware httpmiddlewarelog.Service, env env.Service) (*Implementation, error) {
+func NewHttpServerService(ctx context.Context, logMiddleware httpmiddlewarelog.Service, env env.Service) (Service, error) {
 	handler := http.NewServeMux()
 	return &Implementation{handler: handler, logMiddleware: logMiddleware, env: env}, nil
 }

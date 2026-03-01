@@ -12,7 +12,7 @@ type Implementation struct {
 	logService log.Service
 }
 
-func NewHttpMiddlewareService(ctx context.Context, logService log.Service) (*Implementation, error) {
+func NewHttpMiddlewareService(ctx context.Context, logService log.Service) (Service, error) {
 	return &Implementation{logService: logService}, nil
 }
 

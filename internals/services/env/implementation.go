@@ -11,7 +11,7 @@ type Implementation struct {
 	env *Env
 }
 
-func NewEnvService(ctx context.Context, godotenv godotenv.Dependency, os os.Dependency) (*Implementation, error) {
+func NewEnvService(ctx context.Context, godotenv godotenv.Dependency, os os.Dependency) (Service, error) {
 	// load .env file from root
 	err := godotenv.Load(".env")
 	if err != nil {
